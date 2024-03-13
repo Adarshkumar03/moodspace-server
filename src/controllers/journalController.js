@@ -23,12 +23,7 @@ exports.journal_detail = async (req, res, next) => {
 }
 
 exports.journal_list = async (req, res, next) => {
-    Journal.find().
-    sort({createdAt: -1})
-    .exec()
-    .then((journals) => {
-        res.send(journals);
-    }).catch(next);
+    res.send(req.user.journals);
 }
 
 exports.journal_delete_post = async (req, res, next) => {

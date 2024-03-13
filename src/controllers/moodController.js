@@ -22,12 +22,7 @@ exports.mood_detail = async (req, res, next) => {
 }
 
 exports.mood_list = async (req, res, next) => {
-    Mood.find().
-    sort({createdAt: -1})
-    .exec()
-    .then((moods) => {
-        res.send(moods);
-    }).catch(next);
+    return res.send(req.user.moods);
 }
 
 exports.mood_delete_post = async (req, res, next) => {

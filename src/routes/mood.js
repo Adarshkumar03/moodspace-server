@@ -1,14 +1,15 @@
 import {Router} from "express";
 import moodControllers from "../controllers/moodController";
+import passport from "passport";
 
 const router = Router();
 
-router.get("/", moodControllers.mood_list);
+router.get("/", passport.authenticate("jwt", {session: false}), moodControllers.mood_list);
 
-router.post("/", moodControllers.mood_post);
+router.post("/", passport.authenticate("jwt", {session: false}), moodControllers.mood_post);
 
-router.get("/:entryId", moodControllers.mood_detail);
+router.get("/:entryId", passport.authenticate("jwt", {session: false}), moodControllers.mood_detail);
 
-router.delete("/:entryId", moodControllers.mood_delete_post);
+router.delete("/:entryId", passport.authenticate("jwt", {session: false}), moodControllers.mood_delete_post);
 
 export default router;

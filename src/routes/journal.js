@@ -1,14 +1,15 @@
 import {Router} from "express";
 import journalControllers from "../controllers/journalController";
+import passport from "passport";
 
 const router = Router();
 
-router.get("/", journalControllers.journal_list);
+router.get("/", passport.authenticate("jwt", {session: false}),journalControllers.journal_list);
 
-router.post("/", journalControllers.journal_post);
+router.post("/", passport.authenticate("jwt", {session: false}), journalControllers.journal_post);
 
-router.get("/:entryId", journalControllers.journal_detail);
+router.get("/:entryId", passport.authenticate("jwt", {session: false}), journalControllers.journal_detail);
 
-router.delete("/:entryId", journalControllers.journal_delete_post);
+router.delete("/:entryId", passport.authenticate("jwt", {session: false}), journalControllers.journal_delete_post);
 
 export default router;
