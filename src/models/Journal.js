@@ -3,7 +3,6 @@ import mongoose, { Schema } from "mongoose";
 const JournalSchema = new Schema({
     title: {
         type: String, 
-        required: true
     },
     journal: {
         type: String, 

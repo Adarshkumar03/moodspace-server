@@ -2,14 +2,12 @@ import express, { json } from "express";
 import bodyParser from "body-parser";
 import passport from "passport";
 import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config";
 
 // Importing the routes
 import routes from "./routes";
 import { connectToDB } from "./utils/connectDB";
 import "./utils/passport";
-
-dotenv.config();
 
 const app = express();
 
