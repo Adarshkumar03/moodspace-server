@@ -30,16 +30,12 @@ exports.register_user = async (req, res, next) => {
 
 exports.login_user = (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user, info) => {
-    console.log("Inside passport.authenticate");
     if (err || !user) {
-      console.log("Inside error block");
       return res.status(400).json({
         message: info ? info.message : "Login failed",
         user,
       });
     }
-
-    console.log("User found:", user);
 
     req.login(user, { session: false }, (err) => {
       if (err) {
@@ -47,7 +43,6 @@ exports.login_user = (req, res, next) => {
       }
 
       const payload = { sub: user._id };
-      console.log("User found:", user);
       const token = jwt.sign(payload, process.env.secret, { expiresIn: "1d" });
 
       res.json({ user, token });

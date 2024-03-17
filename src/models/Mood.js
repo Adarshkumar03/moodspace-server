@@ -11,12 +11,23 @@ const MoodSchema = new Schema({
   notes: { 
     type: String 
   },
+  month: { 
+    type: Number,
+    min: 1,
+    max: 12 
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
 }, {
   timestamps: true
+});
+
+MoodSchema.pre('save', function(next) {
+  const mood = this; 
+  mood.month = mood.createdAt.getMonth() + 1; // Months are 0-indexed in JS Date 
+  next();
 });
 
 const Mood = mongoose.model("Mood", MoodSchema);
