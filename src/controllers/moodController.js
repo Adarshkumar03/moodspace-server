@@ -31,7 +31,8 @@ exports.mood_post = async (req, res, next) => {
 exports.moods_monthly = async (req, res, next) => {
   let year = req.params.year;
   let userId = req.user._id;
-  let month = req.body.month;
+  const d = new Date();
+  let month = d.getMonth()+1;
 
   if (!year || isNaN(year) || parseInt(year) < 2000) {
     year = new Date().getFullYear();
