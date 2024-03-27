@@ -22,7 +22,7 @@ exports.register_user = async (req, res, next) => {
     const savedUser = await newUser.save();
     const payload = { sub: savedUser._id };
     const token = jwt.sign(payload, process.env.secret, { expiresIn: "1d" });
-    res.json({ token });
+    res.json({ token, username: savedUser.username });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -41,11 +41,9 @@ exports.login_user = (req, res, next) => {
       if (err) {
         res.send(err);
       }
-
       const payload = { sub: user._id };
       const token = jwt.sign(payload, process.env.secret, { expiresIn: "1d" });
-
-      res.json({ user, token });
+      res.json({ username: user.username, token });
     });
   })(req, res);
 };

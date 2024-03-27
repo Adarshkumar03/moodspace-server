@@ -1,7 +1,5 @@
 import Mood from "../models/Mood";
 import User from "../models/User";
-import { getWeekNumber } from "../utils/weekNumber";
-import { ObjectId } from "bson";
 
 exports.mood_post = async (req, res, next) => {
   console.log("Incoming request to /api/mood");
@@ -33,7 +31,7 @@ exports.mood_post = async (req, res, next) => {
 exports.moods_monthly = async (req, res, next) => {
   let year = req.params.year;
   let userId = req.user._id;
-  let month = 3; // Assuming you want to filter for March
+  let month = req.body.month;
 
   if (!year || isNaN(year) || parseInt(year) < 2000) {
     year = new Date().getFullYear();
@@ -44,31 +42,6 @@ exports.moods_monthly = async (req, res, next) => {
   })
     .exec()
     .then((moods) => {
-      res.status(201).json({
-        message: "Moods sent successfully",
-        moods,
-      });
-    })
-    .catch(next);
-};
-
-exports.moods_weekly = async (req, res, next) => {
-  console.log("Inside moods_weekly");
-  let year = req.params.year;
-  let userId = req.user._id;
-  let month = 3;
-  const today = new Date();
-  const sevenDaysAgo = new Date(today.setDate(today.getDate() - 7));
-  if (!year || isNaN(year) || parseInt(year) < 2000) {
-    year = new Date().getFullYear();
-  }
-  Mood.find({
-    user: userId,
-    month: month,
-    createdAt: { $gte: sevenDaysAgo },
-  })
-    .exec((moods) => {
-      console.log("Moods"+ moods);
       res.status(201).json({
         message: "Moods sent successfully",
         moods,
