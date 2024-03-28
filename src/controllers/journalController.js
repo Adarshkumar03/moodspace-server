@@ -33,7 +33,7 @@ exports.journal_post = async (req, res, next) => {
 
 exports.journal_detail = async (req, res, next) => {
   const journal = await Journal.findById(req.params.entryId).catch(next);
-  return res.send(journal);
+  return res.status(200).json({journal});
 };
 
 exports.journal_list = async (req, res, next) => {
