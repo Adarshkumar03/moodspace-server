@@ -49,10 +49,5 @@ exports.login_user = (req, res, next) => {
 };
 
 exports.get_users_lists = async (req, res, next) => {
-  try {
-    const users = await User.find().select(["username", "password"]);
-    res.json(users);
-  } catch (err) {
-    next();
-  }
+  return res.json({message: "User list"});
 };
