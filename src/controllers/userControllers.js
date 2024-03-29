@@ -48,6 +48,6 @@ exports.login_user = (req, res, next) => {
   })(req, res);
 };
 
-exports.get_users_lists = async (req, res, next) => {
+exports.get_users_list = async (req, res, next) => {
   return res.json({message: "User list"});
 };
