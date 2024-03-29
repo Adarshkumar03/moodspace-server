@@ -30,28 +30,29 @@ exports.journal_post = async (req, res, next) => {
   }
 };
 
-
 exports.journal_detail = async (req, res, next) => {
   const journal = await Journal.findById(req.params.entryId).catch(next);
-  return res.status(200).json({journal});
+  return res.status(200).json({ journal });
 };
 
 exports.journal_list = async (req, res, next) => {
-  console.log("Inside /api/journal/limit");
+  console.log("Inside /api/journal/all");
   try {
-    const journals = await Journal.find({ user: req.user._id })
-      .sort({ createdAt: -1 }) // Sort by newest first // Select only title and content 
+    const journals = await Journal.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    }); // Sort by newest first // Select only title and content
 
     // Extract first two lines from content if necessary
     const formattedJournals = journals.map((journal) => {
       const $ = cheerio.load(journal.journal);
       // Remove HTML tags while preserving plain text
-      const preview = $.root().text().slice(0, 100); // Adjust slice limit as needed.
+      const preview = $.root().text().slice(0, 200); // Adjust slice limit as needed.
       return { ...journal, preview };
     });
+    console.log(formattedJournals[0]._doc.title);
     res.status(200).json({
-      message:"Journal successfully send",
-      formattedJournals
+      message: "Journal successfully send",
+      formattedJournals,
     });
   } catch (err) {
     next(err);
@@ -63,18 +64,18 @@ exports.journal_list_min = async (req, res, next) => {
   try {
     const journals = await Journal.find({ user: req.user._id })
       .sort({ createdAt: -1 }) // Sort by newest first
-      .limit(4) // Select only title and content 
+      .limit(4); // Select only title and content
 
     // Extract first two lines from content if necessary
     const formattedJournals = journals.map((journal) => {
       const $ = cheerio.load(journal.journal);
       // Remove HTML tags while preserving plain text
-      const preview = $.root().text().slice(0, 100); // Adjust slice limit as needed.
+      const preview = $.root().text().slice(0, 150); // Adjust slice limit as needed.
       return { ...journal, preview };
     });
     res.status(200).json({
-      message:"Journal successfully send",
-      formattedJournals
+      message: "Journal successfully send",
+      formattedJournals,
     });
   } catch (err) {
     next(err);
