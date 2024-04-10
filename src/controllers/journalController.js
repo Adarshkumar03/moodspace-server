@@ -3,17 +3,12 @@ import User from "../models/User";
 import * as cheerio from "cheerio";
 
 exports.journal_post = async (req, res, next) => {
-  console.log("Incoming request to /api/journal");
   try {
-    console.log("Incoming journal:", req.body.journal);
-    console.log("User ID:", req.user._id);
-
     const journal = await Journal.create({
       title: req.body.title,
       journal: req.body.content,
       user: req.user._id,
     });
-    console.log("Created Journal:", journal);
 
     await User.findByIdAndUpdate(req.user._id, {
       $push: { journals: journal._id },
@@ -36,7 +31,6 @@ exports.journal_detail = async (req, res, next) => {
 };
 
 exports.journal_list = async (req, res, next) => {
-  console.log("Inside /api/journal/all");
   try {
     const journals = await Journal.find({ user: req.user._id }).sort({
       createdAt: -1,
@@ -60,7 +54,6 @@ exports.journal_list = async (req, res, next) => {
 };
 
 exports.journal_list_min = async (req, res, next) => {
-  console.log("Inside /api/journal/limit");
   try {
     const journals = await Journal.find({ user: req.user._id })
       .sort({ createdAt: -1 }) // Sort by newest first
