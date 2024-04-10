@@ -9,6 +9,7 @@ exports.mood_post = async (req, res, next) => {
 
     const mood = await Mood.create({
       rating: req.body.moodRating,
+      smfqScore: req.body.score,
       user: req.user._id,
     });
     console.log("Created Mood:", mood);
