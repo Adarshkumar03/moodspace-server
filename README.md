@@ -28,6 +28,16 @@ MoodSpace Server is an API endpoint for MoodSpace app
 2.  Navigate to moodspace: `cd moodspace-server`
 3.  Install Dependencies: `npm install`
 
+### .env
+
+Create a .env file. It should have the following fields
+
+```
+MONGODB_URI=your_mongodb_uri
+PORT=any_port
+secret=any_jwt_secret
+```
+
 ### Development Mode
 
 1.  Start the Vite develpment server: `npm start`
