@@ -12,19 +12,16 @@ import "./utils/passport";
 const app = express();
 
 app.use(json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://moodspace.vercel.app"],
-    optionsSuccessStatus: 200,
-  })
-);
+app.use(cors());
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
 connectToDB();
-app.use("/v1/user", routes.user);
-app.use("/v1/mood", routes.mood);
-app.use("/v1/journal", routes.journal);
+
+app.use("/api/user", routes.user);
+app.use("/api/mood", routes.mood);
+app.use("/api/journal", routes.journal);
+
 
 // app.get('*', function (req, res, next) {
 //   if (!req.originalUrl.startsWith("/api")) { // Adjust if your API uses a different prefix
