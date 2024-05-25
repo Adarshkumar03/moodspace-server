@@ -22,17 +22,6 @@ app.use("/v1/user", routes.user);
 app.use("/v1/mood", routes.mood);
 app.use("/v1/journal", routes.journal);
 
-
-// app.get('*', function (req, res, next) {
-//   if (!req.originalUrl.startsWith("/api")) { // Adjust if your API uses a different prefix
-//       const error = new Error(`${req.ip} tried to access ${req.originalUrl}`);
-//       error.statusCode = 301;
-//       next(error);
-//   } else {
-//       next(); // Proceed normally for API routes
-//   }
-// });
-
 app.use((error, req, res, next) => {
   if (!error.statusCode) error.statusCode = 500;
 
