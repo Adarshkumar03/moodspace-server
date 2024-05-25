@@ -12,12 +12,10 @@ import "./utils/passport";
 const app = express();
 
 app.use(json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://moodspace.vercel.app"],
-    optionsSuccessStatus: 200,
-  })
-);
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
+  next();
+});
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
