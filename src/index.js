@@ -12,21 +12,10 @@ import "./utils/passport";
 const app = express();
 
 app.use(json());
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://moodspace.vercel.app",
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+    origin: ["http://localhost:5173", "https://moodspace.vercel.app"],
+    optionsSuccessStatus: 200,
   })
 );
 app.use(bodyParser.json());
