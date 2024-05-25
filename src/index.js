@@ -18,9 +18,9 @@ app.use(passport.initialize());
 
 connectToDB();
 
-app.use("/api/user", routes.user);
-app.use("/api/mood", routes.mood);
-app.use("/api/journal", routes.journal);
+app.use("/v1/user", routes.user);
+app.use("/v1/mood", routes.mood);
+app.use("/v1/journal", routes.journal);
 
 
 // app.get('*', function (req, res, next) {
