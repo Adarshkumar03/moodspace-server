@@ -11,8 +11,26 @@ import "./utils/passport";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://moodspace.vercel.app",
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+
 app.use(json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
@@ -24,12 +42,10 @@ app.use("/v1/journal", routes.journal);
 
 app.use((error, req, res, next) => {
   if (!error.statusCode) error.statusCode = 500;
-
   if (error.statusCode === 301) {
     // Temporary workaround
     return next(error); // Pass the error further along
   }
-
   return res.status(error.statusCode).json({ error: error.toString() });
 });
 
