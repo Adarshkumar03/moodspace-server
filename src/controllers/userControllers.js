@@ -2,6 +2,7 @@ import User from "../models/User";
 import passport from "passport";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import hmac_rawurlsafe_base64_string from "../utils/IdGenerator";
 
 exports.register_user = async (req, res, next) => {
   const { username, password } = req.body;
@@ -22,7 +23,11 @@ exports.register_user = async (req, res, next) => {
     const savedUser = await newUser.save();
     const payload = { sub: savedUser._id };
     const token = jwt.sign(payload, process.env.secret, { expiresIn: "1d" });
-    res.json({ token, username: savedUser.username });
+    const subscriberId = hmac_rawurlsafe_base64_string(
+      savedUser._id.toString(),
+      process.env.INDEX_SECRET
+    );
+    res.json({ token, username: savedUser.username, subscriberId });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -43,11 +48,15 @@ exports.login_user = (req, res, next) => {
       }
       const payload = { sub: user._id };
       const token = jwt.sign(payload, process.env.secret, { expiresIn: "1d" });
-      res.json({ username: user.username, token });
+      const subscriberId = hmac_rawurlsafe_base64_string(
+        user._id,
+        process.env.INDEX_SECRET
+      );
+      res.json({ username: user.username, token, subscriberId });
     });
   })(req, res);
 };
 
 exports.get_users_list = async (req, res, next) => {
-  return res.json({message: "User list"});
+  return res.json({ message: "User list" });
 };
