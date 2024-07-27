@@ -36,6 +36,7 @@ exports.register_user = async (req, res, next) => {
 exports.login_user = (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err || !user) {
+      console.log(err);
       return res.status(400).json({
         message: info ? info.message : "Login failed",
         user,
@@ -49,8 +50,8 @@ exports.login_user = (req, res, next) => {
       const payload = { sub: user._id };
       const token = jwt.sign(payload, process.env.secret, { expiresIn: "1d" });
       const subscriberId = hmac_rawurlsafe_base64_string(
-        user._id,
-        process.env.INDEX_SECRET
+        user._id.toString(),
+        process.env.SUPRSEND_WORKSPACE_SECRET
       );
       res.json({ username: user.username, token, subscriberId });
     });
