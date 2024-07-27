@@ -16,6 +16,7 @@
     "nodemon": "^3.1.0"
   },
   "dependencies": {
+    "@suprsend/react-inbox": "^3.2.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.18.3",
     "bson": "^6.5.0",
