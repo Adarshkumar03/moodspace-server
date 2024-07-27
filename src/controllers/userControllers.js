@@ -25,7 +25,7 @@ exports.register_user = async (req, res, next) => {
     const token = jwt.sign(payload, process.env.secret, { expiresIn: "1d" });
     const subscriberId = hmac_rawurlsafe_base64_string(
       savedUser._id.toString(),
-      process.env.INDEX_SECRET
+      process.env.SUPRSEND_WORKSPACE_SECRET
     );
     res.json({ token, username: savedUser.username, subscriberId });
   } catch (err) {
